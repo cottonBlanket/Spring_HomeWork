@@ -1,9 +1,6 @@
 package com.homework.homework.beans.Person;
 
 import com.homework.homework.beans.Animal.Animal;
-import com.homework.homework.beans.Animal.Cat;
-import com.homework.homework.beans.Food.Food;
-import com.homework.homework.beans.Food.Sugar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
