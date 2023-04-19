@@ -16,7 +16,7 @@ public class InfoResponse {
     public Date date;
 
     public InfoResponse(InfoRequest request) {
-        this.date = request.date;
+        this.date = request.getDate();
         var r = new Random();
         this.id = r.nextInt(1000000);
     }

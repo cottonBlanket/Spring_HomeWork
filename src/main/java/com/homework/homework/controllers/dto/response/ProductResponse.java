@@ -13,7 +13,7 @@ public class ProductResponse {
     public InfoResponse info;
 
     public ProductResponse(ProductRequest request) {
-        this.price = request.price;
-        this.info = new InfoResponse(request.info);
+        this.price = request.getPrice();
+        this.info = new InfoResponse(request.getInfo());
     }
 }

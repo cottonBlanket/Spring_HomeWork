@@ -7,10 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
 public class ProductController {
 
-    @PostMapping("create")
+    @PostMapping("/create")
     public ResponseEntity<ProductResponse> create(@RequestBody ProductRequest model) {
         return new ResponseEntity<>(new ProductResponse(model), HttpStatus.OK);
     }
