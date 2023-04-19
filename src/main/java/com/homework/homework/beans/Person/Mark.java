@@ -1,7 +1,11 @@
 package com.homework.homework.beans.Person;
 
+import com.homework.homework.beans.Animal.Animal;
 import com.homework.homework.beans.Animal.Cat;
+import com.homework.homework.beans.Food.Food;
+import com.homework.homework.beans.Food.Sugar;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PreDestroy;
@@ -10,7 +14,8 @@ import javax.annotation.PreDestroy;
 public class Mark {
 
     @Autowired
-    private Cat cat;
+    @Qualifier("cat")
+    private Animal cat;
 
     public Mark() {
 

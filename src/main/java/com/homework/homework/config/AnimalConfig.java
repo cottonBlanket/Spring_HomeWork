@@ -12,15 +12,15 @@ import org.springframework.context.annotation.Scope;
 @Configuration
 public class AnimalConfig {
 
-    @Bean
+    @Bean("cat")
     @Scope("prototype")
-    public Cat Cat() {
+    public Animal Cat() {
         return new Cat();
     }
 
-    @Bean
+    @Bean("dog")
     @Scope("prototype")
-    public Dog dog() {
+    public Animal dog() {
         return new Dog();
     }
 
@@ -28,11 +28,5 @@ public class AnimalConfig {
     @Scope("prototype")
     public Piggy piggy() {
         return new Piggy();
-    }
-
-    @Bean
-    @Scope("prototype")
-    public Nastya createNastya(Piggy piggy) {
-        return new Nastya(piggy);
     }
 }
