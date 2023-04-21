@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 @Component
@@ -20,6 +21,11 @@ public class Mark {
 
     public String callCat() {
         return cat.say();
+    }
+
+    @PostConstruct
+    public void preConstruct() {
+        System.out.print("Я родился!");
     }
 
     @PreDestroy
