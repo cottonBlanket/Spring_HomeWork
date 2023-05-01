@@ -11,5 +11,5 @@ public class ScheduleResponse {
 
     public String name;
 
-    public List<EventResponse> events;
+    public List<String> events;
 }

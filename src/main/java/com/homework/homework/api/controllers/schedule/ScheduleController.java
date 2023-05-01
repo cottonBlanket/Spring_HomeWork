@@ -1,8 +1,8 @@
 package com.homework.homework.api.controllers.schedule;
 
 import com.homework.homework.api.controllers.schedule.dto.request.CreateScheduleRequest;
-import com.homework.homework.api.controllers.schedule.dto.response.AllScheduleResponse;
 import com.homework.homework.api.controllers.schedule.dto.response.CreateScheduleResponse;
+import com.homework.homework.api.controllers.schedule.dto.response.ScheduleResponse;
 import com.homework.homework.dal.event.Event;
 import com.homework.homework.dal.schedule.Schedule;
 import com.homework.homework.dal.schedule.repo.ScheduleRepository;
@@ -31,11 +31,11 @@ public class ScheduleController {
     @PostMapping("/create")
     public ResponseEntity<CreateScheduleResponse> createSchedule(@RequestBody CreateScheduleRequest request)
     {
-        List<Event> events = request.getEvents().stream().map(x -> Event.builder().name(x).build()).collect(Collectors.toList());
         Schedule entity = Schedule.builder()
                 .name(request.getName())
-                .events(events)
                 .build();
+        List<Event> events = request.getEvents().stream().map(x -> Event.builder().name(x).schedule(entity).build()).collect(Collectors.toList());
+        entity.setEvents(events);
         var result = scheduleRepository.save(entity);
         return new ResponseEntity<>(CreateScheduleResponse
                 .builder()
@@ -46,9 +46,20 @@ public class ScheduleController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Schedule>> getAllSchedules()
+    public ResponseEntity<List<ScheduleResponse>> getAllSchedules()
     {
         List<Schedule> schedules = scheduleRepository.findAll();
-        return new ResponseEntity<>(schedules, HttpStatus.OK);
+        List<ScheduleResponse> response = schedules
+                        .stream()
+                        .map(x -> ScheduleResponse
+                                        .builder()
+                                        .name(x.getName())
+                                        .events(x.getEvents()
+                                                .stream()
+                                                .map(Event::getName)
+                                                .collect(Collectors.toList()))
+                                        .build())
+                        .collect(Collectors.toList());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
