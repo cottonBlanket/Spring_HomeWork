@@ -3,12 +3,17 @@ package com.homework.homework.api.controllers.publics;
 import com.homework.homework.api.annotation.PublicApi;
 import com.homework.homework.api.controllers.publics.dto.request.RegisterRequest;
 import com.homework.homework.api.controllers.publics.dto.request.RoleUpdateRequest;
+import com.homework.homework.api.controllers.publics.dto.response.ChangePersonRoleResponse;
+import com.homework.homework.api.controllers.publics.dto.response.CheckApiResponse;
+import com.homework.homework.api.controllers.publics.dto.response.RegisterResponse;
 import com.homework.homework.dal.person.Person;
 import com.homework.homework.dal.person.repo.PersonRepository;
+import com.homework.homework.logic.managers.person.PersonManager;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -22,26 +27,21 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 public class PublicController {
 
-    PersonRepository personRepository;
-    PasswordEncoder passwordEncoder;
+    PersonManager personManager;
 
     @PostMapping("/register")
-    public String register(@RequestBody RegisterRequest request) {
-        Person person = RegisterRequest.RegisterProfile.MapPersonFrom(request);
-        person.setPassword(passwordEncoder.encode(request.getPassword()));
-        var a = personRepository.save(person);
-        return a.getId().toString();
+    public ResponseEntity<RegisterResponse> register(@RequestBody RegisterRequest request) {
+        return new ResponseEntity<>(personManager.registerPerson(request), HttpStatus.OK);
     }
 
     @PatchMapping("/role")
-    public void changeRole(@RequestBody RoleUpdateRequest request) {
-        Person person = personRepository.getReferenceById(request.getUserId());
-        person.setRole(request.getRole());
-        personRepository.save(person);
+    public ResponseEntity<ChangePersonRoleResponse> changeRole(@RequestBody RoleUpdateRequest request) {
+        return new ResponseEntity<>(personManager.ChangePersonRole(request), HttpStatus.OK);
     }
 
     @GetMapping("/check")
-    public ResponseEntity<String> checkPublicApi() {
-        return new ResponseEntity<>("I'm Halk", HttpStatus.OK);
+    public ResponseEntity<CheckApiResponse> checkPublicApi(Authentication auth) {
+
+        return new ResponseEntity<>(personManager.checkApi(auth.getName()), HttpStatus.OK);
     }
 }

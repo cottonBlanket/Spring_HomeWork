@@ -2,9 +2,11 @@ package com.homework.homework.api.controllers.publics.dto.request;
 
 import com.homework.homework.dal.person.Person;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.Value;
 
 @Value
+@Getter
 public class RegisterRequest {
 
     String username;
@@ -12,27 +14,4 @@ public class RegisterRequest {
     String password;
 
     String role;
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public static class RegisterProfile {
-        public static Person MapPersonFrom(RegisterRequest model) {
-            return Person
-                    .builder()
-                    .username(model.getUsername())
-                    .role("ROLE_" + model.getRole().toUpperCase())
-                    .enabled(true)
-                    .build();
-        }
-    }
 }
